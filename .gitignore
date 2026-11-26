@@ -1,0 +1,23 @@
+# Entorno virtual
+venv/
+.venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Base de datos local (se regenera con migrate + populate_data.py)
+db.sqlite3
+db.sqlite3-journal
+
+# Logs y artefactos
+logs/
+staticfiles/
+.coverage
+htmlcov/
+
+# Configuración local / secretos
+.env
+.vscode/
+.idea/
