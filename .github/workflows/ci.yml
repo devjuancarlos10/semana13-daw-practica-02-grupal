@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main, chahuayo-martinez, vivanco-solano]
+  pull_request:
+    branches: [main]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.14"
+          cache: pip
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+      - name: Verificar configuración y migraciones
+        run: |
+          python manage.py check
+          python manage.py makemigrations --check --dry-run
+      - name: Validar esquema OpenAPI
+        run: python manage.py spectacular --file schema.yml --validate --fail-on-warn
+      - name: Tests con cobertura
+        run: |
+          coverage run --source=core,biblioteca,ecommerce --omit="*/migrations/*,*/tests.py,*/populate.py" manage.py test
+          coverage report --fail-under=80
