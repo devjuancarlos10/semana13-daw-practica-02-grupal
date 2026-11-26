@@ -191,6 +191,13 @@ SPECTACULAR_SETTINGS = {
     "SERVE_INCLUDE_SCHEMA": False,
     "COMPONENT_SPLIT_REQUEST": True,
     "SCHEMA_PATH_PREFIX": r"/api/",
+    # Nombres claros para los enums "estado" de distintos modelos
+    "ENUM_NAME_OVERRIDES": {
+        "EstadoPrestamoEnum": "biblioteca.models.Prestamo.Estado",
+        "EstadoReservaEnum": "biblioteca.models.Reserva.Estado",
+        "EstadoSolicitudEnum": "biblioteca.models.SolicitudAdquisicion.Estado",
+        "EstadoOrdenEnum": "ecommerce.models.Orden.Estado",
+    },
     "TAGS": [
         {"name": "auth", "description": "Obtención y revocación de tokens"},
         {"name": "biblioteca", "description": "Caso 1 - Biblioteca Central UNCP"},

@@ -1,0 +1,2260 @@
+{
+  "info": {
+    "name": "DAW Semana 13 - API Grupal (Biblioteca UNCP + TecnoMarket)",
+    "description": "Colección de pruebas de ambos casos. Ejecutar primero `python populate_data.py`. Las carpetas 'Auth' guardan los tokens automáticamente en variables de colección.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000"
+    },
+    {
+      "key": "token_admin",
+      "value": ""
+    },
+    {
+      "key": "token_bibliotecario",
+      "value": ""
+    },
+    {
+      "key": "token_estudiante",
+      "value": ""
+    },
+    {
+      "key": "token_docente",
+      "value": ""
+    },
+    {
+      "key": "token_admin_tienda",
+      "value": ""
+    },
+    {
+      "key": "token_vendedor",
+      "value": ""
+    },
+    {
+      "key": "token_cliente",
+      "value": ""
+    },
+    {
+      "key": "jwt_access",
+      "value": ""
+    },
+    {
+      "key": "prestamo_id",
+      "value": "1"
+    },
+    {
+      "key": "orden_id",
+      "value": "1"
+    },
+    {
+      "key": "producto_id",
+      "value": "1"
+    },
+    {
+      "key": "webhook_secret",
+      "value": "webhook-secreto-desarrollo"
+    }
+  ],
+  "item": [
+    {
+      "name": "0. Raíz y documentación",
+      "item": [
+        {
+          "name": "API root (HATEOAS)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "OpenAPI schema",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/schema/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "schema"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Swagger UI",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/docs/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "docs"
+              ]
+            },
+            "description": ""
+          }
+        }
+      ]
+    },
+    {
+      "name": "Caso 1 - Biblioteca",
+      "item": [
+        {
+          "name": "Auth",
+          "item": [
+            {
+              "name": "Login admin",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/auth/token/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "token"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"Biblioteca2026!\"\n}"
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                      "const d = pm.response.json();",
+                      "pm.collectionVariables.set('token_admin', d.token);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Login bibliotecario",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/auth/token/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "token"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"bibliotecario1\",\n  \"password\": \"Biblioteca2026!\"\n}"
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                      "const d = pm.response.json();",
+                      "pm.collectionVariables.set('token_bibliotecario', d.token);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Login estudiante",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/auth/token/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "token"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"estudiante1\",\n  \"password\": \"Biblioteca2026!\"\n}"
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                      "const d = pm.response.json();",
+                      "pm.collectionVariables.set('token_estudiante', d.token);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Login docente",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/auth/token/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "token"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"docente1\",\n  \"password\": \"Biblioteca2026!\"\n}"
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                      "const d = pm.response.json();",
+                      "pm.collectionVariables.set('token_docente', d.token);"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Libros (RF1)",
+          "item": [
+            {
+              "name": "Listar catálogo (público, 20/pág)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/libros/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "libros"
+                  ]
+                },
+                "description": ""
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Filtrar por categoría",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/libros/?categoria=ingenieria",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "libros"
+                  ],
+                  "query": [
+                    {
+                      "key": "categoria",
+                      "value": "ingenieria"
+                    }
+                  ]
+                },
+                "description": ""
+              }
+            },
+            {
+              "name": "Filtrar año >= 2020",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/libros/?año__gte=2020",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "libros"
+                  ],
+                  "query": [
+                    {
+                      "key": "año__gte",
+                      "value": "2020"
+                    }
+                  ]
+                },
+                "description": ""
+              }
+            },
+            {
+              "name": "Solo disponibles",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/libros/?disponible=true",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "libros"
+                  ],
+                  "query": [
+                    {
+                      "key": "disponible",
+                      "value": "true"
+                    }
+                  ]
+                },
+                "description": ""
+              }
+            },
+            {
+              "name": "Buscar 'algoritmos'",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/libros/?search=algoritmos",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "libros"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "algoritmos"
+                    }
+                  ]
+                },
+                "description": ""
+              }
+            },
+            {
+              "name": "Ordenar -año",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/libros/?ordering=-año",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "libros"
+                  ],
+                  "query": [
+                    {
+                      "key": "ordering",
+                      "value": "-año"
+                    }
+                  ]
+                },
+                "description": ""
+              }
+            },
+            {
+              "name": "Ordenar título",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/libros/?ordering=título",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "libros"
+                  ],
+                  "query": [
+                    {
+                      "key": "ordering",
+                      "value": "título"
+                    }
+                  ]
+                },
+                "description": ""
+              }
+            },
+            {
+              "name": "Detalle libro",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/libros/1/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "libros",
+                    "1"
+                  ]
+                },
+                "description": ""
+              }
+            },
+            {
+              "name": "Crear libro (bibliotecario)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_bibliotecario}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/libros/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "libros"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"isbn\": \"978-1449373320\",\n  \"titulo\": \"Designing Data-Intensive Applications\",\n  \"autor_id\": 1,\n  \"editorial\": \"O'Reilly\",\n  \"año\": 2017,\n  \"categoria\": \"ingenieria\",\n  \"stock\": 3,\n  \"estante\": \"A-15\",\n  \"piso\": 2\n}"
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 201', () => pm.response.to.have.status(201));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Crear libro como estudiante (403)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_estudiante}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/libros/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "libros"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"isbn\": \"x\"\n}"
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 403', () => pm.response.to.have.status(403));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Actualizar stock (PATCH)",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_bibliotecario}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/libros/2/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "libros",
+                    "2"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"stock\": 10\n}"
+                }
+              }
+            },
+            {
+              "name": "Eliminar libro (solo admin)",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_admin}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/libros/55/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "libros",
+                    "55"
+                  ]
+                },
+                "description": ""
+              }
+            }
+          ]
+        },
+        {
+          "name": "Préstamos (RF2)",
+          "item": [
+            {
+              "name": "Registrar préstamo",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_bibliotecario}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/prestamos/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "prestamos"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"usuario\": 6,\n  \"libro\": 2\n}"
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                      "pm.collectionVariables.set('prestamo_id', pm.response.json().id);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Devolver préstamo (@action)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_bibliotecario}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/prestamos/{{prestamo_id}}/devolver/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "prestamos",
+                    "{{prestamo_id}}",
+                    "devolver"
+                  ]
+                },
+                "description": ""
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Préstamos vencidos (@action, limit/offset)",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_bibliotecario}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/prestamos/vencidos/?limit=5&offset=0",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "prestamos",
+                    "vencidos"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "5"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ]
+                },
+                "description": ""
+              }
+            },
+            {
+              "name": "Mis préstamos (estudiante)",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_estudiante}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/prestamos/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "prestamos"
+                  ]
+                },
+                "description": ""
+              }
+            },
+            {
+              "name": "Registrar como estudiante (403)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_estudiante}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/prestamos/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "prestamos"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"usuario\": 6,\n  \"libro\": 2\n}"
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 403', () => pm.response.to.have.status(403));"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Usuarios (RF3)",
+          "item": [
+            {
+              "name": "Listar usuarios (admin)",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_admin}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/usuarios/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "usuarios"
+                  ]
+                },
+                "description": ""
+              }
+            },
+            {
+              "name": "Listar usuarios como estudiante (403)",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_estudiante}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/usuarios/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "usuarios"
+                  ]
+                },
+                "description": ""
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 403', () => pm.response.to.have.status(403));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Detalle público (sin token)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/usuarios/6/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "usuarios",
+                    "6"
+                  ]
+                },
+                "description": ""
+              }
+            },
+            {
+              "name": "Mi perfil (@action)",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_estudiante}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/usuarios/perfil/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "usuarios",
+                    "perfil"
+                  ]
+                },
+                "description": ""
+              }
+            },
+            {
+              "name": "Actualizar mi teléfono",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_estudiante}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/usuarios/perfil/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "usuarios",
+                    "perfil"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"telefono\": \"987654321\"\n}"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Docentes: reservas y adquisiciones",
+          "item": [
+            {
+              "name": "Reservar libro",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_docente}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/reservas/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "reservas"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"libro\": 5\n}"
+                }
+              }
+            },
+            {
+              "name": "Solicitar adquisición",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_docente}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/adquisiciones/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "adquisiciones"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"titulo\": \"Clean Architecture\",\n  \"autor\": \"Robert C. Martin\",\n  \"justificacion\": \"Curso de arquitectura\"\n}"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Caso 2 - TecnoMarket",
+      "item": [
+        {
+          "name": "Auth",
+          "item": [
+            {
+              "name": "Login admin tienda",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/auth/token/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "token"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"admin_tienda\",\n  \"password\": \"TecnoMarket2026!\"\n}"
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                      "const d = pm.response.json();",
+                      "pm.collectionVariables.set('token_admin_tienda', d.token);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Login vendedor",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/auth/token/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "token"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"vendedor1\",\n  \"password\": \"TecnoMarket2026!\"\n}"
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                      "const d = pm.response.json();",
+                      "pm.collectionVariables.set('token_vendedor', d.token);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Login cliente",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/auth/token/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "token"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"cliente1\",\n  \"password\": \"TecnoMarket2026!\"\n}"
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));",
+                      "const d = pm.response.json();",
+                      "pm.collectionVariables.set('token_cliente', d.token);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "JWT para móvil",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/auth/jwt/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "auth",
+                    "jwt"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"cliente1\",\n  \"password\": \"TecnoMarket2026!\"\n}"
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.collectionVariables.set('jwt_access', pm.response.json().access);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Registro de cliente",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/cuenta/registro/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "cuenta",
+                    "registro"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"cliente_postman\",\n  \"password\": \"ClaveSegura123\",\n  \"email\": \"postman@correo.pe\"\n}"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Productos (RF1)",
+          "item": [
+            {
+              "name": "Catálogo (24/pág)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/productos/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "productos"
+                  ]
+                },
+                "description": ""
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 200', () => pm.response.to.have.status(200));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Filtrar laptops Dell",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/productos/?categoria=laptops&marca=dell",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "productos"
+                  ],
+                  "query": [
+                    {
+                      "key": "categoria",
+                      "value": "laptops"
+                    },
+                    {
+                      "key": "marca",
+                      "value": "dell"
+                    }
+                  ]
+                },
+                "description": ""
+              }
+            },
+            {
+              "name": "Rango de precio",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/productos/?precio_min=500&precio_max=2000",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "productos"
+                  ],
+                  "query": [
+                    {
+                      "key": "precio_min",
+                      "value": "500"
+                    },
+                    {
+                      "key": "precio_max",
+                      "value": "2000"
+                    }
+                  ]
+                },
+                "description": ""
+              }
+            },
+            {
+              "name": "Disponibles",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/productos/?disponible=true",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "productos"
+                  ],
+                  "query": [
+                    {
+                      "key": "disponible",
+                      "value": "true"
+                    }
+                  ]
+                },
+                "description": ""
+              }
+            },
+            {
+              "name": "Buscar 'gaming laptop'",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/productos/?search=gaming laptop",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "productos"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "gaming laptop"
+                    }
+                  ]
+                },
+                "description": ""
+              }
+            },
+            {
+              "name": "Ordenar -precio",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/productos/?ordering=-precio",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "productos"
+                  ],
+                  "query": [
+                    {
+                      "key": "ordering",
+                      "value": "-precio"
+                    }
+                  ]
+                },
+                "description": ""
+              }
+            },
+            {
+              "name": "Ordenar rating",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/productos/?ordering=-rating_promedio",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "productos"
+                  ],
+                  "query": [
+                    {
+                      "key": "ordering",
+                      "value": "-rating_promedio"
+                    }
+                  ]
+                },
+                "description": ""
+              }
+            },
+            {
+              "name": "Detalle producto",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/productos/{{producto_id}}/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "productos",
+                    "{{producto_id}}"
+                  ]
+                },
+                "description": ""
+              }
+            },
+            {
+              "name": "Reseñas del producto (@action)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/productos/{{producto_id}}/reseñas/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "productos",
+                    "{{producto_id}}",
+                    "reseñas"
+                  ]
+                },
+                "description": ""
+              }
+            },
+            {
+              "name": "Crear producto (vendedor)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_vendedor}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/productos/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "productos"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sku\": \"LAP-DEMO-0001\",\n  \"nombre\": \"Laptop Demo Postman\",\n  \"descripcion\": \"Producto de prueba\",\n  \"marca\": \"Lenovo\",\n  \"categoria_id\": 1,\n  \"precio\": \"2999.00\",\n  \"descuento\": \"5.00\",\n  \"stock\": 10,\n  \"especificaciones\": {\n    \"ram\": \"16 GB\",\n    \"ssd\": \"512 GB\"\n  },\n  \"imagenes\": [\n    {\n      \"url\": \"https://cdn.tecnomarket.pe/img/demo.jpg\",\n      \"alt\": \"demo\",\n      \"orden\": 0\n    }\n  ]\n}"
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 201', () => pm.response.to.have.status(201));"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Crear producto como cliente (403)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_cliente}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/productos/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "productos"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"sku\": \"X\"\n}"
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 403', () => pm.response.to.have.status(403));"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Carrito (RF2)",
+          "item": [
+            {
+              "name": "Ver carrito",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_cliente}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/carrito/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "carrito"
+                  ]
+                },
+                "description": ""
+              }
+            },
+            {
+              "name": "Agregar producto",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_cliente}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/carrito/agregar/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "carrito",
+                    "agregar"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"producto\": 1,\n  \"cantidad\": 1\n}"
+                }
+              }
+            },
+            {
+              "name": "Actualizar cantidad",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_cliente}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/carrito/actualizar/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "carrito",
+                    "actualizar"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"producto\": 1,\n  \"cantidad\": 2\n}"
+                }
+              }
+            },
+            {
+              "name": "Aplicar cupón",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_cliente}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/carrito/aplicar-cupon/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "carrito",
+                    "aplicar-cupon"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"codigo\": \"CYBERWOW\"\n}"
+                }
+              }
+            },
+            {
+              "name": "Eliminar producto",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_cliente}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/carrito/eliminar/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "carrito",
+                    "eliminar"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"producto\": 1\n}"
+                }
+              }
+            },
+            {
+              "name": "Agregar de nuevo",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_cliente}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/carrito/agregar/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "carrito",
+                    "agregar"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"producto\": 2,\n  \"cantidad\": 1\n}"
+                }
+              }
+            },
+            {
+              "name": "Checkout",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_cliente}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/carrito/checkout/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "carrito",
+                    "checkout"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"direccion_envio\": \"Av. Huancavelica 1234, El Tambo, Huancayo\",\n  \"metodo_pago\": \"culqi\"\n}"
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 201', () => pm.response.to.have.status(201));",
+                      "pm.collectionVariables.set('orden_id', pm.response.json().id);"
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "Vaciar carrito",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_cliente}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/carrito/vaciar/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "carrito",
+                    "vaciar"
+                  ]
+                },
+                "description": ""
+              }
+            },
+            {
+              "name": "Carrito con JWT (Bearer)",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{jwt_access}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/carrito/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "carrito"
+                  ]
+                },
+                "description": ""
+              }
+            }
+          ]
+        },
+        {
+          "name": "Órdenes (RF3)",
+          "item": [
+            {
+              "name": "Mis órdenes (@action)",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_cliente}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/ordenes/mis-ordenes/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "ordenes",
+                    "mis-ordenes"
+                  ]
+                },
+                "description": ""
+              }
+            },
+            {
+              "name": "Detalle orden",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_cliente}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/ordenes/{{orden_id}}/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "ordenes",
+                    "{{orden_id}}"
+                  ]
+                },
+                "description": ""
+              }
+            },
+            {
+              "name": "Cancelar orden pendiente",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_cliente}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/ordenes/{{orden_id}}/cancelar/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "ordenes",
+                    "{{orden_id}}",
+                    "cancelar"
+                  ]
+                },
+                "description": ""
+              }
+            },
+            {
+              "name": "Admin: marcar pagada",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_admin_tienda}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/ordenes/{{orden_id}}/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "ordenes",
+                    "{{orden_id}}"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"estado\": \"pagada\"\n}"
+                }
+              }
+            },
+            {
+              "name": "Admin: listar (limit/offset 50)",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_admin_tienda}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/ordenes/?limit=50&offset=0",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "ordenes"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "50"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "0"
+                    }
+                  ]
+                },
+                "description": ""
+              }
+            },
+            {
+              "name": "Admin: reporte de ventas",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_admin_tienda}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/ordenes/resumen/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "ordenes",
+                    "resumen"
+                  ]
+                },
+                "description": ""
+              }
+            }
+          ]
+        },
+        {
+          "name": "Reseñas (RF4)",
+          "item": [
+            {
+              "name": "Listar reseñas (público)",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/reseñas/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "reseñas"
+                  ]
+                },
+                "description": ""
+              }
+            },
+            {
+              "name": "Crear reseña sin compra (403)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_cliente}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/reseñas/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "reseñas"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"producto\": 200,\n  \"calificacion\": 5,\n  \"titulo\": \"Excelente\",\n  \"comentario\": \"Muy bueno\"\n}"
+                }
+              }
+            },
+            {
+              "name": "Calificación inválida (400)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Token {{token_cliente}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/reseñas/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "reseñas"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"producto\": 1,\n  \"calificacion\": 9,\n  \"titulo\": \"x\",\n  \"comentario\": \"y\"\n}"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Webhooks (sistemas externos)",
+          "item": [
+            {
+              "name": "Webhook pago aprobado",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "X-Webhook-Token",
+                    "value": "{{webhook_secret}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/webhooks/pagos/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "webhooks",
+                    "pagos"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"orden\": 1,\n  \"estado\": \"aprobado\",\n  \"referencia\": \"chr_test_123\",\n  \"monto\": \"0.00\"\n}"
+                }
+              }
+            },
+            {
+              "name": "Webhook sin firma (403)",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{base_url}}/api/webhooks/pagos/",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "webhooks",
+                    "pagos"
+                  ]
+                },
+                "description": "",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"orden\": 1\n}"
+                }
+              },
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "type": "text/javascript",
+                    "exec": [
+                      "pm.test('Status 403', () => pm.response.to.have.status(403));"
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Seguridad: throttling y CORS",
+      "item": [
+        {
+          "name": "Throttling: ejecutar 25 veces con Runner -> 429 (burst 20/min)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/libros/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "libros"
+              ]
+            },
+            "description": "Use Collection Runner con 25 iteraciones. A partir de la 21 responde 429 Too Many Requests."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('200 o 429', () => pm.expect([200, 429]).to.include(pm.response.code));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "CORS: origen permitido",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Origin",
+                "value": "https://app.tecnomarket.pe"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/productos/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "productos"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('CORS header', () => pm.response.to.have.header('Access-Control-Allow-Origin'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Logout (revoca token)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Token {{token_estudiante}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/auth/logout/",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "logout"
+              ]
+            },
+            "description": ""
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status 204', () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
